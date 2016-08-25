@@ -1,6 +1,5 @@
 
 require 'pry'
-# test is looking for a position when calling Queens.black so it isn't really practical to make each Queen objects
 class Queen 
   attr_reader :position, :color
   def initialize(color, position)
@@ -11,25 +10,19 @@ class Queen
 end
     
 class Queens
-  # attr_reader :white, :black
   attr_writer :board
   def initialize(args={})
     
-    if args[:white]
-      @white = Queen.new('W', args[:white])
-    else
+    unless args[:white]
       args[:white] = [0, 3]
-      @white = Queen.new('W', args[:white])
     end
+    @white = Queen.new('W', args[:white])
     
-    if args[:black]
-      @black = Queen.new('B', args[:black])
-    else
+    unless args[:black]
       args[:black] = [7, 3]
-      @black = Queen.new('B', args[:black])
     end
-    # @white = args[:white] || [0, 3]
-    # @black = args[:black] || [7, 3]
+    @black = Queen.new('B', args[:black])
+
     raise ArgumentError, 'Queens cannot occupy the same space' if @white.position == @black.position
   end
   
@@ -59,19 +52,11 @@ _ _ _ _ _ _ _ _
     
     add_to_board(@white, board_rows)
     add_to_board(@black, board_rows)
-    # vertical = @white[0]
-    # horizontal = @white[1] * 2
-    # board_rows[vertical][horizontal] = 'W'
-    
-    # vertical = @black[0]
-    # horizontal = @black[1] * 2
-    # board_rows[vertical][horizontal] = 'B'
     
     board_rows.join
   end
   
   def add_to_board(queen, board_rows)
-    # board_rows = board.lines
     vertical = queen.position[0]
     horizontal = queen.position[1] * 2
     board_rows[vertical][horizontal] = queen.color
@@ -108,7 +93,3 @@ _ _ _ _ _ _ _ _
   end
 
 end
-# 
-
-# class Board
-# end
