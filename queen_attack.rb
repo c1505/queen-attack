@@ -1,5 +1,4 @@
 
-require 'pry'
 class Queen 
   attr_reader :position, :color
   def initialize(color, position)
@@ -12,15 +11,9 @@ end
 class Queens
   attr_writer :board
   def initialize(args={})
-    
-    unless args[:white]
-      args[:white] = [0, 3]
-    end
+    args[:white] = args[:white] || [0, 3]
+    args[:black] = args[:black] || [7, 3]
     @white = Queen.new('W', args[:white])
-    
-    unless args[:black]
-      args[:black] = [7, 3]
-    end
     @black = Queen.new('B', args[:black])
 
     raise ArgumentError, 'Queens cannot occupy the same space' if @white.position == @black.position
@@ -73,23 +66,23 @@ _ _ _ _ _ _ _ _
   end
   
   def positive_diagonal?
-    diagonal_array = []
-    wh = @white.position
-    while wh[0] < 7 && wh[1] < 7
-      wh = wh.map {|f| f + 1 }
-      diagonal_array << wh
+    diagonal = []
+    diagonal_point = @white.position
+    while diagonal_point[0] < 7 && diagonal_point[1] < 7
+      diagonal_point = diagonal_point.map {|f| f + 1 }
+      diagonal << diagonal_point
     end
-    diagonal_array.include?(@black.position)
+    diagonal.include?(@black.position)
   end
   
   def other_diagonal?
-    diagonal_array = []
-    wh = @white.position
-    while wh[0] < 7 && wh[1] < 7
-      wh = [wh[0] - 1, wh[1] + 1]
-      diagonal_array << wh
+    diagonal = []
+    diagonal_point = @white.position
+    while diagonal_point[0] < 7 && diagonal_point[1] < 7
+      diagonal_point = [diagonal_point[0] - 1, diagonal_point[1] + 1]
+      diagonal << diagonal_point
     end
-    diagonal_array.include?(@black.position)
+    diagonal.include?(@black.position)
   end
 
 end
